@@ -1,0 +1,10 @@
+br\ejb\EJBAleatorio.class
+br\ejb\EJBRetornarSoma.class
+br\ejb\EJBRetornarSomaLocal.class
+br\jsf\JSFCompetidor.class
+br\ejb\ICompetidor.class
+br\ejb\EJBCompetidor.class
+br\ejb\EJBAleatorioLocal.class
+br\resources\JavaEE8Resource.class
+br\model\Competicao.class
+br\JAXRSConfiguration.class
