@@ -7,4 +7,5 @@ br\ejb\EJBCompetidor.class
 br\ejb\EJBAleatorioLocal.class
 br\resources\JavaEE8Resource.class
 br\model\Competicao.class
+br\ejb\EJBConsumidor.class
 br\JAXRSConfiguration.class

@@ -14,13 +14,15 @@ import javax.ejb.Local;
  * @author PARTICULAR
  */
 @Local
-public interface ICompetidor {
+public interface ICompetidor  {
     
     
     public void computarPontos(String nome, int pontos);
     
-    
+    public boolean verificarRanking();
     
     public ArrayList rankins();
+    
+    public Map Maprankins();
     
 }

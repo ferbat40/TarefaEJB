@@ -10,12 +10,17 @@ import br.ejb.EJBRetornarSomaLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.Map;
+
 import javax.ejb.EJB;
 import lombok.Data;
 
 import br.ejb.ICompetidor;
 import java.util.ArrayList;
+
+import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.Queue;
 
 /**
  *
@@ -26,6 +31,16 @@ import java.util.ArrayList;
 @Data
 public class JSFCompetidor implements Serializable {
 
+    @Resource(lookup="java:comp/DefaultJMSConnectionFactory")
+    private ConnectionFactory Contexts;
+    
+    @Resource(lookup="Message/Fila")
+    private Queue fila;
+    
+   
+    
+    
+    
     @EJB
     private EJBRetornarSomaLocal eJBRetornarSoma;
 
@@ -42,7 +57,7 @@ public class JSFCompetidor implements Serializable {
     private int resultado;
     private String nome;
     private String exibir; 
-    
+    private String servidor;
    
 
     public JSFCompetidor() {
@@ -62,6 +77,7 @@ public class JSFCompetidor implements Serializable {
     public void adicionarCompetidor(){
        eJBCompetidor.computarPontos(nome, 0);
        exibir="";
+      
     }
     
     public void gerarRanking(){
@@ -72,12 +88,32 @@ public class JSFCompetidor implements Serializable {
         eJBCompetidor.computarPontos(nome, 1);
         exibir="Soma corresponde";
         }
+       send();
         }
       
     public ArrayList getRanking(){
-     return eJBCompetidor.rankins();
+         return eJBCompetidor.rankins();
     }
+      
+  
+    
+    public void send(){
+         servidor="Ranking empatado ou com 1 participante, não enviado ao servidor";
+        if (eJBCompetidor.verificarRanking()==true){
+           servidor="Existe um Vencedor, foi enviado ao servidor" ;
+        try{
+        JMSContext contexty = Contexts.createContext();
+        contexty.createProducer().send(fila, eJBCompetidor.Maprankins());
         
+         
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+            
+        }
+        
+    }
+    }
     
     }
     
